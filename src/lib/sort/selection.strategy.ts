@@ -3,7 +3,7 @@ import {
   type TSortStrategyType
 } from '@/lib/sort/sort.model.ts'
 
-export class SelectionSort<T> extends SortBase<T> {
+export class SelectionStrategy<T> extends SortBase<T> {
   public type: TSortStrategyType = 'selection'
 
   public async _sort(source: T[]): Promise<void> {
@@ -20,8 +20,7 @@ export class SelectionSort<T> extends SortBase<T> {
         }
       }
 
-      this.swap(source, i, min)
-      await this.updateCallbackFn(source)
+      await this.swap(source, i, min)
     }
   }
 }

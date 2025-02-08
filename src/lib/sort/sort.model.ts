@@ -1,7 +1,7 @@
 export type CompareFn<T> = (a: T, b: T) => number
 export type DelayFn<T> = (source: T[]) => Promise<void>
 
-export type TSortStrategyType = 'selection'
+export type TSortStrategyType = 'selection' | 'bubble'
 export type TSortStrategyStatus = 'idle' | 'sorting' | 'killed'
 
 export interface ISortStrategy<T> {
@@ -24,10 +24,12 @@ export abstract class SortBase<T> implements ISortStrategy<T> {
     return this.compareFn(a, b) < 0
   }
 
-  protected swap(source: T[], i: number, j: number): void {
+  protected async swap(source: T[], i: number, j: number): Promise<void> {
     const temp = source[i]
     source[i] = source[j]
     source[j] = temp
+
+    await this.updateCallbackFn(source)
   }
 
   public async sort(source: T[]): Promise<void> {

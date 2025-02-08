@@ -1,7 +1,8 @@
 import type { ISortStrategy, TSortStrategyType } from '@/lib/sort/sort.model.ts'
 import { numberComparisonFn, sleep } from '@/lib/utils.ts'
 import { ref, type Ref } from 'vue'
-import { SelectionSort } from '@/lib/sort/selection-sort.ts'
+import { SelectionStrategy } from '@/lib/sort/selection.strategy.ts'
+import { BubbleStrategy } from '@/lib/sort/bubble.strategy.ts'
 
 export function useSortStrategy(
   strategyType: TSortStrategyType,
@@ -16,7 +17,10 @@ export function useSortStrategy(
   }
   switch (strategyType) {
     case 'selection':
-      strategy = new SelectionSort(numberComparisonFn, updateCallback)
+      strategy = new SelectionStrategy(numberComparisonFn, updateCallback)
+      break
+    case 'bubble':
+      strategy = new BubbleStrategy(numberComparisonFn, updateCallback)
       break
     default:
       throw new Error(`Unknown sort strategy type: ${strategyType}`)
