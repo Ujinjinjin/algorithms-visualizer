@@ -15,7 +15,7 @@ onMounted(() => {
     return
   }
 
-  chart = echarts.init(chartContainer.value, null, { renderer: 'svg' })
+  chart = echarts.init(chartContainer.value, null, { renderer: 'canvas' })
   chart.setOption(props.options)
 })
 
