@@ -6,21 +6,21 @@ import {
 export class InsertionStrategy<T> extends SortBase<T> {
   public type: TSortStrategyType = 'insertion'
 
-  public async _sort(source: T[]): Promise<void> {
-    for (let i = 0; i < source.length; i++) {
+  public async _sort(): Promise<void> {
+    for (let i = 0; i < this.reader.length; i++) {
       if (this.status === 'killed') {
         this.status = 'idle'
         return
       }
 
-      const t = source[i]
+      const t = await this.reader.get(i)
       let j = i
-      while (j > 0 && this.less(t, source[j - 1])) {
-        source[j] = source[j - 1]
+      while (j > 0 && this.less(t, await this.reader.get(j - 1))) {
+        await this.reader.set(j, await this.reader.get(j - 1))
         j--
-        await this.updateCallbackFn(source)
+        this.updateCallbackFn(this.reader.source)
       }
-      source[j] = t
+      await this.reader.set(j, t)
     }
   }
 }

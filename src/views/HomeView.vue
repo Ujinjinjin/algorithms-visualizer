@@ -17,13 +17,13 @@ const datasource: ComputedRef<number[]> = computed(() => {
       size = 10
       break
     case 'S':
-      size = 100
+      size = 50
       break
     case 'M':
-      size = 500
+      size = 100
       break
     case 'L':
-      size = 1000
+      size = 500
       break
   }
   return generateDataset(size)
@@ -61,9 +61,14 @@ function sort() {
         <Button @click="sort">Sort</Button>
         <Button @click="reset">Reset</Button>
       </div>
-      <div class="grid grid-cols-2 col-span-9">
-        <SortStrategy title="Bubble Sort" strategy="bubble" class="w-full h-96"/>
-        <SortStrategy title="Selection Sort" strategy="selection" class="w-full h-96"/>
+      <div class="col-span-9">
+        <h2 class="place-self-center text-2xl py-4">Items: {{datasource.length}}</h2>
+        <div class="grid grid-cols-3">
+          <SortStrategy title="Bubble Sort" strategy="bubble" class="w-full h-96"/>
+          <SortStrategy title="Selection Sort" strategy="selection" class="w-full h-96"/>
+          <SortStrategy title="Insertion Sort" strategy="insertion" class="w-full h-96"/>
+          <SortStrategy title="Insertion Swap Sort" strategy="insertion-swap" class="w-full h-96"/>
+        </div>
       </div>
     </div>
   </main>

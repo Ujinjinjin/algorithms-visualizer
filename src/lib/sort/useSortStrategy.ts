@@ -1,17 +1,18 @@
 import type { ISortStrategy, TSortStrategyType } from '@/lib/sort/sort.model.ts'
-import { numberComparisonFn, sleep } from '@/lib/utils.ts'
+import { numberComparisonFn } from '@/lib/utils.ts'
 import { ref, type Ref } from 'vue'
 import { SelectionStrategy } from '@/lib/sort/selection.strategy.ts'
 import { BubbleStrategy } from '@/lib/sort/bubble.strategy.ts'
+import { InsertionStrategy } from '@/lib/sort/insertion.strategy.ts'
+import { InsertionSwapStrategy } from '@/lib/sort/insertion-swap.strategy.ts'
 
 export function useSortStrategy(
   strategyType: TSortStrategyType,
   datasetRef: Ref<number[]>
 ) {
   let strategy: ISortStrategy<number>
-  const updateCallback = async (source: number[]) => {
-    await sleep(0)
-    if (strategy?.isActive()) {
+  const updateCallback = (source: number[]) => {
+    if (strategy?.isActive) {
       datasetRef.value = [...source]
     }
   }
@@ -21,6 +22,12 @@ export function useSortStrategy(
       break
     case 'bubble':
       strategy = new BubbleStrategy(numberComparisonFn, updateCallback)
+      break
+    case 'insertion':
+      strategy = new InsertionStrategy(numberComparisonFn, updateCallback)
+      break
+    case 'insertion-swap':
+      strategy = new InsertionSwapStrategy(numberComparisonFn, updateCallback)
       break
     default:
       throw new Error(`Unknown sort strategy type: ${strategyType}`)

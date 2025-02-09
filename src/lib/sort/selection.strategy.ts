@@ -6,21 +6,21 @@ import {
 export class SelectionStrategy<T> extends SortBase<T> {
   public type: TSortStrategyType = 'selection'
 
-  public async _sort(source: T[]): Promise<void> {
-    for (let i = 0; i < source.length; i++) {
+  public async _sort(): Promise<void> {
+    for (let i = 0; i < this.reader.length; i++) {
       if (this.status === 'killed') {
         this.status = 'idle'
         return
       }
 
       let min = i
-      for (let j = i; j < source.length; j++) {
-        if (this.less(source[j], source[min])) {
+      for (let j = i; j < this.reader.length; j++) {
+        if (this.less(await this.reader.get(j), await this.reader.get(min))) {
           min = j
         }
       }
 
-      await this.swap(source, i, min)
+      await this.swap(i, min)
     }
   }
 }

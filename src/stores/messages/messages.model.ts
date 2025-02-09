@@ -15,4 +15,4 @@ export type TMessage<T extends TMessageKey> = {
   payload: TMessagePayload[T]
 }
 
-export type TMessageHandler<T extends TMessageKey> = (payload: TMessagePayload[T]) => void
+export type TMessageHandler<T extends TMessageKey> = (payload: TMessagePayload[T]) => Promise<void>
