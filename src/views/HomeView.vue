@@ -6,6 +6,7 @@ import { useMessagePublisher } from '@/lib/messages/useMessagePublisher.ts'
 import { computed, type ComputedRef, onMounted, type Ref, ref, watch } from 'vue'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
 import type { TShirtSize } from '@/lib/model.ts'
+import { PlayIcon, ArrowPathIcon } from '@heroicons/vue/16/solid'
 
 const { publish } = useMessagePublisher()
 
@@ -58,16 +59,17 @@ function sort() {
             <SelectItem value="L">Large</SelectItem>
           </SelectContent>
         </Select>
-        <Button @click="sort">Sort</Button>
-        <Button @click="reset">Reset</Button>
+        <Button @click="sort"><PlayIcon/> Sort</Button>
+        <Button @click="reset" variant="destructive"><ArrowPathIcon/> Reset</Button>
       </div>
       <div class="col-span-9">
         <h2 class="place-self-center text-2xl py-4">Items: {{datasource.length}}</h2>
         <div class="grid grid-cols-3">
-          <SortStrategy title="Bubble Sort" strategy="bubble" class="w-full h-96"/>
-          <SortStrategy title="Selection Sort" strategy="selection" class="w-full h-96"/>
-          <SortStrategy title="Insertion Sort" strategy="insertion" class="w-full h-96"/>
-          <SortStrategy title="Insertion Swap Sort" strategy="insertion-swap" class="w-full h-96"/>
+          <SortStrategy title="Bubble" strategy="bubble" class="w-full h-96"/>
+          <SortStrategy title="Selection" strategy="selection" class="w-full h-96"/>
+          <SortStrategy title="Insertion" strategy="insertion" class="w-full h-96"/>
+          <SortStrategy title="Insertion Swap" strategy="insertion-swap" class="w-full h-96"/>
+          <SortStrategy title="Shell" strategy="shell" class="w-full h-96"/>
         </div>
       </div>
     </div>

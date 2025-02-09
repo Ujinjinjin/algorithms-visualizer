@@ -3,7 +3,7 @@ import { sleep } from '@/lib/utils.ts'
 export type CompareFn<T> = (a: T, b: T) => number
 export type UpdateCallbackFn<T> = (source: T[]) => void
 
-export type TSortStrategyType = 'selection' | 'bubble' | 'insertion' | 'insertion-swap'
+export type TSortStrategyType = 'selection' | 'bubble' | 'insertion' | 'insertion-swap' | 'shell'
 export type TSortStrategyStatus = 'idle' | 'sorting' | 'killed'
 
 export interface IReadStats {
@@ -48,7 +48,6 @@ export class SortStrategyStats implements IReadStats, IWriteStats {
 }
 
 export interface ISortStrategy<T> {
-  readonly type: TSortStrategyType
   readonly stats: IReadStats
   readonly isActive: boolean
   sort(source: T[]): Promise<void>
@@ -112,16 +111,23 @@ export abstract class SortBase<T> implements ISortStrategy<T> {
     return this.compareFn(a, b) < 0
   }
 
-  protected async swap(i: number, j: number): Promise<void> {
-    await this.reader.swap(i, j)
-    this.updateCallbackFn(this.reader.source)
+  protected abortIfKilled(): void {
+    if (this.status === 'killed') {
+      throw new Error('Sort was aborted')
+    }
   }
 
   public async sort(source: T[]): Promise<void> {
     this.status = 'sorting' as TSortStrategyStatus
     this.reader = new DelayedReader(source)
     this.reader.stats.reset()
-    await this._sort()
+
+    try {
+      await this._sort()
+    } catch (e) {
+
+    }
+    this.status = 'idle' as TSortStrategyStatus
   }
 
   public kill(): void {
@@ -136,6 +142,5 @@ export abstract class SortBase<T> implements ISortStrategy<T> {
     return this.reader?.stats ?? new SortStrategyStats()
   }
 
-  abstract type: TSortStrategyType
   abstract _sort(): Promise<void>
 }
