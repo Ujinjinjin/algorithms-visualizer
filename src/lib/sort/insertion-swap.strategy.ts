@@ -5,11 +5,11 @@ import {
 
 export class InsertionSwapStrategy<T> extends SortBase<T> {
   public async _sort(): Promise<void> {
-    for (let i = 0; i < this.reader.length; i++) {
-      for (let j = i; j > 0 && this.less(await this.reader.get(j), await this.reader.get(j - 1)); j--) {
+    for (let i = 0; i < this.source.length; i++) {
+      for (let j = i; j > 0 && this.less(await this.source.get(j), await this.source.get(j - 1)); j--) {
         this.abortIfKilled()
-        await this.reader.swap(j, j - 1)
-        this.updateCallbackFn(this.reader.source)
+        await this.source.swap(j, j - 1)
+        this.updateCallbackFn(this.source.source)
       }
     }
   }

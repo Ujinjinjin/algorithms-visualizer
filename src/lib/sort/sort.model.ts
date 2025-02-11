@@ -3,7 +3,12 @@ import { sleep } from '@/lib/utils.ts'
 export type CompareFn<T> = (a: T, b: T) => number
 export type UpdateCallbackFn<T> = (source: T[]) => void
 
-export type TSortStrategyType = 'selection' | 'bubble' | 'insertion' | 'insertion-swap' | 'shell'
+export type TSortStrategyType =
+  | 'selection'
+  | 'bubble'
+  | 'insertion'
+  | 'insertion-swap'
+  | 'shell'
 export type TSortStrategyStatus = 'idle' | 'sorting' | 'killed'
 
 export interface IReadStats {
@@ -99,7 +104,7 @@ export class DelayedReader<T> {
 
 export abstract class SortBase<T> implements ISortStrategy<T> {
   protected status: TSortStrategyStatus = 'idle'
-  protected reader!: DelayedReader<T>
+  protected source!: DelayedReader<T>
 
   public constructor(
     protected compareFn: CompareFn<T>,
@@ -117,10 +122,10 @@ export abstract class SortBase<T> implements ISortStrategy<T> {
     }
   }
 
-  public async sort(source: T[]): Promise<void> {
+  public async sort(_source: T[]): Promise<void> {
     this.status = 'sorting' as TSortStrategyStatus
-    this.reader = new DelayedReader(source)
-    this.reader.stats.reset()
+    this.source = new DelayedReader(_source)
+    this.source.stats.reset()
 
     try {
       await this._sort()
@@ -139,7 +144,7 @@ export abstract class SortBase<T> implements ISortStrategy<T> {
   }
 
   public get stats(): IReadStats {
-    return this.reader?.stats ?? new SortStrategyStats()
+    return this.source?.stats ?? new SortStrategyStats()
   }
 
   abstract _sort(): Promise<void>
