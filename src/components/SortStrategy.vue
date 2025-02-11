@@ -6,14 +6,6 @@ import type { TSortStrategyProps } from '@/components/SortStrategy.model.ts'
 import type { ISortStrategy } from '@/lib/sort/sort.model.ts'
 import { useSortStrategy } from '@/lib/sort/useSortStrategy.ts'
 import { useMessageHandler } from '@/lib/messages/useMessageHadler.ts'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from '@/components/ui/table'
 
 const props = defineProps<TSortStrategyProps>()
 

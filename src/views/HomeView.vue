@@ -70,6 +70,8 @@ function sort() {
           <SortStrategy title="Insertion" strategy="insertion" class="w-full h-96"/>
           <SortStrategy title="Insertion Swap" strategy="insertion-swap" class="w-full h-96"/>
           <SortStrategy title="Shell" strategy="shell" class="w-full h-96"/>
+          <SortStrategy title="Merge (Asc)" strategy="merge-asc" class="w-full h-96"/>
+          <SortStrategy title="Merge (Desc)" strategy="merge-desc" class="w-full h-96"/>
         </div>
       </div>
     </div>

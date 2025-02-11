@@ -1,7 +1,4 @@
-import {
-  SortBase,
-  type TSortStrategyType
-} from '@/lib/sort/sort.model.ts'
+import { SortBase } from '@/lib/sort/sort.base.ts'
 
 export class InsertionSwapStrategy<T> extends SortBase<T> {
   public async _sort(): Promise<void> {

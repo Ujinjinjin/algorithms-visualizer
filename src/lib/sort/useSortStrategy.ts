@@ -6,6 +6,8 @@ import { BubbleStrategy } from '@/lib/sort/bubble.strategy.ts'
 import { InsertionStrategy } from '@/lib/sort/insertion.strategy.ts'
 import { InsertionSwapStrategy } from '@/lib/sort/insertion-swap.strategy.ts'
 import { ShellStrategy } from '@/lib/sort/shell.strategy.ts'
+import { MergeAscStrategy } from '@/lib/sort/merge-asc.strategy.ts'
+import { MergeDescStrategy } from '@/lib/sort/merge-desc.strategy.ts'
 
 export function useSortStrategy(
   strategyType: TSortStrategyType,
@@ -32,6 +34,12 @@ export function useSortStrategy(
       break
     case 'shell':
       strategy = new ShellStrategy(numberComparisonFn, updateCallback)
+      break
+    case 'merge-asc':
+      strategy = new MergeAscStrategy(numberComparisonFn, updateCallback)
+      break
+    case 'merge-desc':
+      strategy = new MergeDescStrategy(numberComparisonFn, updateCallback)
       break
     default:
       throw new Error(`Unknown sort strategy type: ${strategyType}`)
